@@ -3,32 +3,54 @@
 
 def caesar_cipher(message, shift)
   
-  
   array_of_characters = message.split('')
+
+  # creates an array of characters with shift applied
   array_of_shifted_characters = array_of_characters.map do |character|
-    character.ord
+    apply_shift(shift, character.ord)
   end
-  array_of_shifted_characters
+
+  # returns new string of shifted characters (encrypted message)
+  array_of_shifted_characters.join('')
 end
+
+
+# helper function that accepts two integers shift_number and character_number,
+# applies a shift value to the character, and returns a new character 
 
 def apply_shift(shift_number, character_number)
-  if character_number >= 65 && character_number <= 90
-    first = 65
-    last = 90
-  elsif character_number >= 97 && character_number <= 122
-    first = 97
-    last = 122
+
+  # is character_number A-Z, a-z, or some other character
+  if character_number >= 'A'.ord && character_number <= 'Z'.ord
+    character_code_start = 'A'.ord
+    character_cod_end = 'Z'.ord
+  elsif character_number >= 'a'.ord && character_number <= 'z'.ord
+    character_code_start = 'a'.ord
+    character_cod_end = 'z'.ord
+  else 
+    # this means character was not A-Z or a-z
+    return character_number.chr
   end
-  new_number = character_number + shift_number
-  puts new_number
-  puts last
-  if new_number > last
-    balance = shift_number - (last - character_number) - 1
-    puts "balance = #{balance}"
-    new_number = first + balance
+  
+  # use modulo reduction for shift_number values greater than character range 26
+  if shift_number > 26
+    shift_number = shift_number % 26
   end
-  puts new_number
-  new_number.chr
+
+  number_after_shift = character_number + shift_number
+  
+  # use modulo reduction for number_after_shift values greater than character_code_end
+  # values
+  if number_after_shift > character_cod_end
+    number_after_shift = ((number_after_shift % character_cod_end) + character_code_start) - 1
+   end
+
+  number_after_shift.chr
 end
 
-  
+# Queries user for a message and a shift number to use in creating an
+# encrypted message
+
+puts "Caesar's Message Encryption: Do you desire to encrypt a message?"
+answer = gets.chomp 
+puts answer 
