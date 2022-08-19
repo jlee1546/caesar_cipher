@@ -23,10 +23,10 @@ def apply_shift(shift_number, character_number)
   # is character_number A-Z, a-z, or some other character
   if character_number >= 'A'.ord && character_number <= 'Z'.ord
     character_code_start = 'A'.ord
-    character_cod_end = 'Z'.ord
+    character_code_end = 'Z'.ord
   elsif character_number >= 'a'.ord && character_number <= 'z'.ord
     character_code_start = 'a'.ord
-    character_cod_end = 'z'.ord
+    character_code_end = 'z'.ord
   else 
     # this means character was not A-Z or a-z and was some other character
     return character_number.chr
@@ -35,14 +35,19 @@ def apply_shift(shift_number, character_number)
   # use modulo reduction for shift_number values greater than character range 26
   if shift_number > 26 || shift_number < -26
     shift_number = shift_number % 26
+   
   end
 
   number_after_shift = character_number + shift_number
+
+  if number_after_shift < character_code_start
+    number_after_shift = character_code_end - (character_code_start - number_after_shift) + 1
+  end
   
   # use modulo reduction for number_after_shift values greater than character_code_end
   # values
-  if number_after_shift > character_cod_end
-    number_after_shift = ((number_after_shift % character_cod_end) + character_code_start) - 1
+  if number_after_shift > character_code_end
+    number_after_shift = ((number_after_shift % character_code_end) + character_code_start) - 1
    end
 
   number_after_shift.chr
