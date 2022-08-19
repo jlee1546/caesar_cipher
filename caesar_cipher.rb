@@ -28,12 +28,12 @@ def apply_shift(shift_number, character_number)
     character_code_start = 'a'.ord
     character_cod_end = 'z'.ord
   else 
-    # this means character was not A-Z or a-z
+    # this means character was not A-Z or a-z and was some other character
     return character_number.chr
   end
   
   # use modulo reduction for shift_number values greater than character range 26
-  if shift_number > 26
+  if shift_number > 26 || shift_number < -26
     shift_number = shift_number % 26
   end
 
@@ -51,6 +51,20 @@ end
 # Queries user for a message and a shift number to use in creating an
 # encrypted message
 
-puts "Caesar's Message Encryption: Do you desire to encrypt a message?"
-answer = gets.chomp 
-puts answer 
+
+
+puts "Encrypt message? Yes or No?"
+answer = gets.chomp
+if answer.downcase == 'no'
+  return
+else
+  puts "Please enter a  message to encrypt"
+  message = gets.chomp
+  puts "Enter a shift amount"
+  shift_amount = gets.chomp.to_i
+end
+
+encrypted_message = caesar_cipher(message, shift_amount)
+
+puts encrypted_message
+
